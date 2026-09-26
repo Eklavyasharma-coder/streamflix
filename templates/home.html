@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}StreamFlix — Discover{% endblock %}{% block content %}
+{% set hero = movies[0] if movies else none %}{% if hero %}<section class="hero" {% if hero.backdrop %}style="background-image:linear-gradient(90deg,#08090df2,#08090d70),url('{{ hero.backdrop }}')"{% endif %}><div><span class="eyebrow">YOUR NEXT FAVORITE</span><h1>{{ hero.title }}</h1><p>{{ hero.overview[:260] }}</p><a class="button" href="{{ url_for('detail', movie_id=hero.id) }}">Explore title</a></div></section>{% endif %}
+<div class="sectionhead"><h2>Browse the collection</h2><a href="{{ url_for('movies') }}">See all →</a></div><form class="searchbar" action="{{ url_for('movies') }}"><input name="q" placeholder="Search movies, genres..." aria-label="Search movies"><button>Search</button></form>
+{% if recommended %}<div class="sectionhead"><h2>Picked for you</h2><span class="muted">Based on genres in your watch history</span></div>{% set movies = recommended %}{% include "_cards.html" %}{% endif %}
+<div class="sectionhead"><h2>Popular in your library</h2><a href="{{ url_for('movies', sort='rating') }}">Top rated →</a></div>{% set movies = trending %}{% include "_cards.html" %}
+<div class="sectionhead"><h2>Recently added</h2></div>{% set movies = movies %}{% include "_cards.html" %}
+{% endblock %}
